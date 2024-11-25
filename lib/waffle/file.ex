@@ -216,6 +216,11 @@ defmodule Waffle.File do
           {:error, :out_of_tries} -> {:error, :recv_timeout}
         end
 
+      {_, _, _, client_ref} ->
+        :hackney.close(client_ref)
+
+        {:error, :waffle_hackney_error}
+
       _err ->
         {:error, :waffle_hackney_error}
     end
